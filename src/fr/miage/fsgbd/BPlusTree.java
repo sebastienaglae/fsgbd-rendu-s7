@@ -8,30 +8,24 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class BPlusTree<K extends Comparable<? super K>, V> {
-    public static enum RangePolicy {
+    public enum RangePolicy {
         EXCLUSIVE, INCLUSIVE
     }
 
     /**
-     * The branching factor used when none specified in constructor.
-     */
-    private static final int DEFAULT_BRANCHING_FACTOR = 128;
-
-    /**
-     * The branching factor for the B+ tree, that measures the capacity of nodes
-     * (i.e., the number of children nodes) for internal nodes in the tree.
+     * Nombre à partir duquel on considère qu'un noeud est plein et doit être séparé en deux.
      */
     private int branchingFactor;
 
     /**
-     * The root node of the B+ tree.
+     * La racine de l'arbre.
      */
     private Node root;
 
-    public BPlusTree() {
-        this(DEFAULT_BRANCHING_FACTOR);
-    }
-
+    /**
+     * Crée un arbre B+ avec un facteur de branche donné.
+     * @param branchingFactor le facteur de branche déclenchant la séparation d'un noeud.
+     */
     public BPlusTree(int branchingFactor) {
         if (branchingFactor <= 2)
             throw new IllegalArgumentException("Illegal branching factor: " + branchingFactor);
@@ -40,14 +34,28 @@ public class BPlusTree<K extends Comparable<? super K>, V> {
         root = new LeafNode();
     }
 
+    /**
+     * Cherche la valeur associée à une clé.
+     * @param key la clé à chercher.
+     * @return la valeur associée à la clé, ou null si la clé n'est pas présente dans l'arbre.
+     */
     public V search(K key) {
         return root.getValue(key);
     }
 
+    /**
+     * Insère une valeur dans l'arbre.
+     * @param key la clé de la valeur à insérer.
+     * @param value la valeur à insérer.
+     */
     public void insert(K key, V value) {
         root.insertValue(key, value);
     }
 
+    /**
+     * Supprime une valeur par sa clé.
+     * @param key la clé de la valeur à supprimer.
+     */
     public void delete(K key) {
         root.deleteValue(key);
     }
@@ -79,6 +87,9 @@ public class BPlusTree<K extends Comparable<? super K>, V> {
         return treeNode;
     }
 
+    /**
+     * Classe abstraite représentant un noeud de l'arbre.
+     */
     private abstract class Node {
         List<K> keys;
 
