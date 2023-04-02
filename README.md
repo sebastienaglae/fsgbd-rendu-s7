@@ -24,42 +24,41 @@ Le programme permet de :
 - Charger une table depuis un fichier (via ObjectInputStream)
 - Exporter une table dans un fichier CSV
 - Importer une table depuis un fichier CSV
-- Benchmark de la table (avec et sans index)
+- Benchmark de la table (avec et sans index) en utilisant un simple benchmark ou JMH
 
-### Résultats du benchmark testant l'insertion et la recherche avec et sans index BTree+
+### Résultats du benchmark testant l'insertion et la recherche avec et sans index BTree+ (JMH)
 
 Voici les résultats qu'on a obtenu en faisant tourner le benchmark sur notre machine (AMD Ryzen 9 5900X, 32GB RAM) :
 
-|     Benchmark    |  size | Score (ns/op) | Mode | Cnt |  Error |
+|     Benchmark    |  size | Score (ns/op) | Mode | Cnt | Error  |
 |:----------------:|:-----:|:-------------:|:----:|:---:|:------:|
-| insert           | 100   | 29            | avgt | 9   | ± 1    |
-| insert           | 1000  | 36            | avgt | 9   | ± 9    |
-| insert           | 10000 | 42            | avgt | 9   | ± 10   |
-| insertBTree      | 100   | 222           | avgt | 9   | ± 7    |
-| insertBTree      | 1000  | 669           | avgt | 9   | ± 75   |
-| insertBTree      | 10000 | 9317          | avgt | 9   | ± 468  |
-| selectFirst      | 100   | 31            | avgt | 9   | ± 1    |
-| selectFirst      | 1000  | 31            | avgt | 9   | ± 1    |
-| selectFirst      | 10000 | 31            | avgt | 9   | ± 1    |
-| selectFirstBTree | 100   | 45            | avgt | 9   | ± 1    |
-| selectFirstBTree | 1000  | 57            | avgt | 9   | ± 2    |
-| selectFirstBTree | 10000 | 67            | avgt | 9   | ± 3    |
-| selectLast       | 100   | 65            | avgt | 9   | ± 2    |
-| selectLast       | 1000  | 622           | avgt | 9   | ± 52   |
-| selectLast       | 10000 | 8316          | avgt | 9   | ± 1005 |
-| selectLastBTree  | 100   | 58            | avgt | 9   | ± 2    |
-| selectLastBTree  | 1000  | 71            | avgt | 9   | ± 6    |
-| selectLastBTree  | 10000 | 83            | avgt | 9   | ± 3    |
+| insert           | 100   |      29       | avgt | 9   |  ± 1   |
+| insert           | 1000  |      36       | avgt | 9   |  ± 9   |
+| insert           | 10000 |      42       | avgt | 9   |  ± 10  |
+| insertBTree      | 100   |      222      | avgt | 9   |  ± 7   |
+| insertBTree      | 1000  |      669      | avgt | 9   |  ± 75  |
+| insertBTree      | 10000 |      809      | avgt | 9   |  ± 81  |
+| selectFirst      | 100   |      31       | avgt | 9   |  ± 1   |
+| selectFirst      | 1000  |      31       | avgt | 9   |  ± 1   |
+| selectFirst      | 10000 |      31       | avgt | 9   |  ± 1   |
+| selectFirstBTree | 100   |      45       | avgt | 9   |  ± 1   |
+| selectFirstBTree | 1000  |      57       | avgt | 9   |  ± 2   |
+| selectFirstBTree | 10000 |      67       | avgt | 9   |  ± 3   |
+| selectLast       | 100   |      65       | avgt | 9   |  ± 2   |
+| selectLast       | 1000  |      622      | avgt | 9   |  ± 52  |
+| selectLast       | 10000 |     8316      | avgt | 9   | ± 1005 |
+| selectLastBTree  | 100   |      58       | avgt | 9   |  ± 2   |
+| selectLastBTree  | 1000  |      71       | avgt | 9   |  ± 6   |
+| selectLastBTree  | 10000 |      83       | avgt | 9   |  ± 3   |
 
 ![Insert Single Result](img/insert-single.png)  
-Complexité : Sans index (O(1)) / Avec index (0(n))
+Complexité : Sans index (O(1)) / Avec index (0(log(n)))
 
 ![Select First Result](img/select-first.png)  
 Complexité : Sans index (O(1)) / Avec index (O(log(n)))
 
 ![Select Last Result](img/select-last.png)  
 Complexité : Sans index (O(n)) / Avec index (O(log(n)))
-
 
 On peut conclure que l'insertion est plus rapide sans index.  
 En revanche, le résultat de la recherche varie en fonction de la taille de la table.  

@@ -88,10 +88,9 @@ public class Column<TKind extends Comparable<? super TKind>> implements IColumn 
      * @param value la valeur à supprimer
      */
     public void removeValue(TKind value) {
-        values.remove(value);
-
-        if (index != null) {
-            enableIndex(branchingFactor);
+        int row = search(value);
+        if (row >= 0) {
+            removeAt(row);
         }
     }
 

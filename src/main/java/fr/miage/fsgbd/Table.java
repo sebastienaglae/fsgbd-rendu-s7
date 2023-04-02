@@ -59,7 +59,7 @@ public class Table implements Serializable {
         for (int i = 0; i < row.length; i++) {
             IColumn column = columns.get(i);
             if (column.isIndexed() && column.contains(row[i])) {
-// L'index ne supporte pas les doublons
+                // L'index ne supporte pas les doublons
                 return false;
             }
         }
