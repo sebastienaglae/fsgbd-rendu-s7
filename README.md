@@ -30,15 +30,38 @@ Le programme permet de :
 
 Voici les résultats qu'on a obtenu en faisant tourner le benchmark sur notre machine (AMD Ryzen 9 5900X, 32GB RAM) :
 
-|                   | Without Index                           | With Index                            |
-|-------------------|-----------------------------------------|---------------------------------------|
-| Insert 1k items   | min=0.062µs, max=9.825µs, avg=0.093µs   | min=0.033µs, max=0.446µs, avg=0.116µs |
-| Insert 50k items  | min=0.042µs, max=8.616µs, avg=0.087µs   | min=0.033µs, max=0.831µs, avg=0.119µs |
-| Random read (1k)  | min=0.03µs, max=3575.7µs, avg=40.231µs  | min=0.056µs, max=1.019µs, avg=0.066µs |                                     |
-| Random read (50k) | min=0.035µs, max=3592.2µs, avg=16.429µs | min=0.055µs, max=0.247µs, avg=0.066µs |
+|     Benchmark    |  size | Score (ns/op) | Mode | Cnt |  Error |
+|:----------------:|:-----:|:-------------:|:----:|:---:|:------:|
+| insert           | 100   | 29            | avgt | 9   | ± 1    |
+| insert           | 1000  | 36            | avgt | 9   | ± 9    |
+| insert           | 10000 | 42            | avgt | 9   | ± 10   |
+| insertBTree      | 100   | 222           | avgt | 9   | ± 7    |
+| insertBTree      | 1000  | 669           | avgt | 9   | ± 75   |
+| insertBTree      | 10000 | 9317          | avgt | 9   | ± 468  |
+| selectFirst      | 100   | 31            | avgt | 9   | ± 1    |
+| selectFirst      | 1000  | 31            | avgt | 9   | ± 1    |
+| selectFirst      | 10000 | 31            | avgt | 9   | ± 1    |
+| selectFirstBTree | 100   | 45            | avgt | 9   | ± 1    |
+| selectFirstBTree | 1000  | 57            | avgt | 9   | ± 2    |
+| selectFirstBTree | 10000 | 67            | avgt | 9   | ± 3    |
+| selectLast       | 100   | 65            | avgt | 9   | ± 2    |
+| selectLast       | 1000  | 622           | avgt | 9   | ± 52   |
+| selectLast       | 10000 | 8316          | avgt | 9   | ± 1005 |
+| selectLastBTree  | 100   | 58            | avgt | 9   | ± 2    |
+| selectLastBTree  | 1000  | 71            | avgt | 9   | ± 6    |
+| selectLastBTree  | 10000 | 83            | avgt | 9   | ± 3    |
 
-On peut conclure que l'insertion est plus rapide sans index.
-En revanche, le résultat de la recherche varie en fonction de la taille de la table.
-Si la table est petite (< 100 éléments), la recherche est plus rapide sans index.
-Si la table est grande (> 100 éléments), la recherche est plus rapide avec index.
-La raison est que l'index BTree+ permet de réduire le nombre de comparaisons à faire pour trouver un élément dans la table.
+![Insert Single Result](img/insert-single.png)  
+Complexité : Sans index (O(1)) / Avec index (0(n))
+
+![Select First Result](img/select-first.png)  
+Complexité : Sans index (O(1)) / Avec index (O(log(n)))
+
+![Select Last Result](img/select-last.png)  
+Complexité : Sans index (O(n)) / Avec index (O(log(n)))
+
+
+On peut conclure que l'insertion est plus rapide sans index.  
+En revanche, le résultat de la recherche varie en fonction de la taille de la table.  
+Si la table est très petite (< 10 éléments) ou qu'on accède souvent aux premiers éléments, la recherche est plus rapide sans index.  
+Cependant, si la table est grande (> 100 éléments) et qu'on accède souvent aux derniers éléments, la recherche est plus rapide avec index. La raison est que l'index BTree+ est trié, donc la recherche est plus rapide.
