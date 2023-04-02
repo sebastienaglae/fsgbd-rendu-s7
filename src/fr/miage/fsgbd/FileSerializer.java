@@ -3,7 +3,7 @@ package fr.miage.fsgbd;
 import java.io.*;
 
 public class FileSerializer<T extends Serializable> {
-    private String filename;
+    private final String filename;
 
     public FileSerializer(String filename) {
         this.filename = filename;

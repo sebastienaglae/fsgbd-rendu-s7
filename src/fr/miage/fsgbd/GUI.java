@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
-
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
@@ -13,10 +12,10 @@ import java.util.List;
  * @author Galli Gregory, Mopolo Moke Gabriel
  */
 public class GUI extends JFrame {
+    private final JTree tree = new JTree();
     private Table table;
     private JButton buttonClean, buttonRemove, buttonLoad, buttonSave, buttonAddMany, buttonAddItem, buttonRefresh, buttonBenchmarkWithIndex, buttonBenchmarkWithoutIndex, buttonExportCSV, buttonImportCSV;
     private JTextField txtNbreItem, txtAddRowItem, txtU, txtFile, removeSpecific;
-    private final JTree tree = new JTree();
 
     public GUI() {
         super();
@@ -341,7 +340,7 @@ public class GUI extends JFrame {
         table.addColumn(new Column<Integer>(Integer.class, "user_id", pkIndexMaxValuesPerNode));
         table.addColumn(new Column<String>(String.class, "name", 0));
 
-        BenchmarkResult insertResult = benchmark(i -> table.addRow(new Object[] { i, "name" + i }), 500);
+        BenchmarkResult insertResult = benchmark(i -> table.addRow(new Object[]{i, "name" + i}), 500);
 
         System.out.println("Insertion de " + numValues + " valeurs dans une table " + (table.getPkColumn().isIndexed() ? "avec" : "sans") + " index : " + insertResult);
 

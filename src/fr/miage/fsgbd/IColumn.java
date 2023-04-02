@@ -1,6 +1,5 @@
 package fr.miage.fsgbd;
 
-import javax.swing.*;
 import javax.swing.tree.TreeNode;
 import java.io.Serializable;
 
